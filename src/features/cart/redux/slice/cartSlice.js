@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { GetCartProductDetailsAPI } from "../api";
-import { getCartLocal, setCartItem } from "../../../../utils";
+import { GetCartProductDetailsAPI, MakeOrderAPI } from "../api";
+import { getCartLocal, resetCartItem, setCartItem } from "../../../../utils";
 
 const initialState = {
   data: [],
@@ -8,6 +8,7 @@ const initialState = {
   success: false,
   message: null,
   totalCartItems: getCartLocal().length,
+  totalPrice: 0,
   localCartItems: getCartLocal(),
 };
 
@@ -32,6 +33,7 @@ const CartSlice = createSlice({
         quantity: prod.quantity,
       }));
       state.totalCartItems = localStoreData.length;
+      state.totalPrice = state.data.reduce((p, c) => p + c.price, 0);
       setCartItem(localStoreData);
     },
   },
@@ -45,6 +47,7 @@ const CartSlice = createSlice({
         const { data, success, message } = action.payload;
         const dbCart = data?.map((prod) => {
           const product = getCartLocal().find((p) => p._id == prod._id);
+
           return {
             ...prod,
             price: product.quantity * prod.price,
@@ -55,11 +58,25 @@ const CartSlice = createSlice({
         state.isLoading = false;
         state.success = success || true;
         state.message = message || "cart items fetched successfully";
+        state.totalPrice = state.data.reduce((p, c) => p + c.price, 0);
       })
       .addCase(GetCartProductDetailsAPI.rejected, (state) => {
         state.isLoading = false;
         state.success = false;
         state.message = "something went wrong";
+      })
+      // make order
+      .addCase(MakeOrderAPI.fulfilled, (state, action) => {
+        const { success, message } = action.payload;
+        state.success = success;
+        state.message = message || "successfully place order";
+        resetCartItem();
+        state.data = [];
+      })
+      .addCase(MakeOrderAPI.rejected, (state, action) => {
+        const { message } = action.payload;
+        state.success = false;
+        state.message = message;
       });
   },
 });

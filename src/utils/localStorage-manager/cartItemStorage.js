@@ -12,6 +12,10 @@ export function setCartItem(cartData) {
   localStorage.setItem(CART_ITEM_KEY, JSON.stringify(cartData));
 }
 
+export function resetCartItem() {
+  localStorage.setItem(CART_ITEM_KEY, JSON.stringify([]));
+}
+
 export function addSingleProductToCart(data) {
   const oldData = getCartLocal();
   let isNew = false;

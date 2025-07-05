@@ -11,6 +11,7 @@ export const CartPage = () => {
 
   useEffect(() => {
     const productIds = getCartLocal().map((prod) => prod._id);
+    console.log("hesllo");
     dispatch(GetCartProductDetailsAPI(productIds));
   }, []);
 
