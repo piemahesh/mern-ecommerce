@@ -1,127 +1,135 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { OrderDetails } from "../components";
+import { useDispatch } from "react-redux";
+import { GetOrderAPI } from "../redux";
 
 export function OrdersPage() {
+  const dispatch = useDispatch();
   const [id, setID] = useState("");
-  const [orders, setOrders] = useState([
-    {
-      _id: "order_001",
-      products: [
-        {
-          name: "Brownie",
-          quantity: 4,
-          price: 59,
-          image: "/images/brownie.jpg",
-        },
-      ],
-      paymentStatus: false,
-      orderStatus: "pending",
-      totalAmount: 236,
-      shippingAddress: {
-        name: "Naveen Kumar",
-        street: "12 MG Road",
-        city: "Chennai",
-        mobileNumber: "9876543210",
-        pincode: "600001",
-      },
-      paymentMethod: "UPI",
-      createdAt: Date.now(),
-    },
-    {
-      _id: "order_002",
-      products: [
-        {
-          name: "Veg Pizza",
-          quantity: 2,
-          price: 299,
-          image: "/images/veg-pizza.jpg",
-        },
-        { name: "Coke", quantity: 2, price: 50, image: "/images/coke.jpg" },
-      ],
-      paymentStatus: true,
-      orderStatus: "delivered",
-      totalAmount: 698,
-      shippingAddress: {
-        name: "Ananya Sharma",
-        street: "45 Park Street",
-        city: "Kolkata",
-        mobileNumber: "9123456780",
-        pincode: "700016",
-      },
-      paymentMethod: "UPI",
-      createdAt: Date.now(),
-    },
-    {
-      _id: "order_003",
-      products: [
-        {
-          name: "Pasta Alfredo",
-          quantity: 1,
-          price: 249,
-          image: "/images/pasta.jpg",
-        },
-      ],
-      paymentStatus: false,
-      orderStatus: "pending",
-      totalAmount: 249,
-      shippingAddress: {
-        name: "Rahul Mehta",
-        street: "22 Residency Road",
-        city: "Bengaluru",
-        mobileNumber: "9988776655",
-        pincode: "560025",
-      },
-      paymentMethod: "UPI",
-      createdAt: Date.now(),
-    },
-    {
-      _id: "order_004",
-      products: [
-        {
-          name: "Cheese Burger",
-          quantity: 3,
-          price: 149,
-          image: "/images/burger.jpg",
-        },
-      ],
-      paymentStatus: true,
-      orderStatus: "shipped",
-      totalAmount: 447,
-      shippingAddress: {
-        name: "Sanya Gupta",
-        street: "7 Connaught Place",
-        city: "Delhi",
-        mobileNumber: "9876543211",
-        pincode: "110001",
-      },
-      paymentMethod: "Debit Card",
-      createdAt: Date.now(),
-    },
-    {
-      _id: "order_005",
-      products: [
-        {
-          name: "Paneer Roll",
-          quantity: 2,
-          price: 99,
-          image: "/images/paneer-roll.jpg",
-        },
-        { name: "Sprite", quantity: 1, price: 50, image: "/images/sprite.jpg" },
-      ],
-      paymentStatus: false,
-      orderStatus: "pending",
-      totalAmount: 248,
-      shippingAddress: {
-        name: "Kiran Raj",
-        street: "88 Banjara Hills",
-        city: "Hyderabad",
-        mobileNumber: "9012345678",
-        pincode: "500034",
-      },
-      paymentMethod: "UPI",
-      createdAt: Date.now(),
-    },
-  ]);
+
+  useEffect(() => {
+    dispatch(GetOrderAPI());
+  }, []);
+  const [orders, setOrders] = useState([]);
+  // const [orders, setOrders] = useState([
+  //   {
+  //     _id: "order_001",
+  //     products: [
+  //       {
+  //         name: "Brownie",
+  //         quantity: 4,
+  //         price: 59,
+  //         image: "/images/brownie.jpg",
+  //       },
+  //     ],
+  //     paymentStatus: false,
+  //     orderStatus: "pending",
+  //     totalAmount: 236,
+  //     shippingAddress: {
+  //       name: "Naveen Kumar",
+  //       street: "12 MG Road",
+  //       city: "Chennai",
+  //       mobileNumber: "9876543210",
+  //       pincode: "600001",
+  //     },
+  //     paymentMethod: "UPI",
+  //     createdAt: Date.now(),
+  //   },
+  //   {
+  //     _id: "order_002",
+  //     products: [
+  //       {
+  //         name: "Veg Pizza",
+  //         quantity: 2,
+  //         price: 299,
+  //         image: "/images/veg-pizza.jpg",
+  //       },
+  //       { name: "Coke", quantity: 2, price: 50, image: "/images/coke.jpg" },
+  //     ],
+  //     paymentStatus: true,
+  //     orderStatus: "delivered",
+  //     totalAmount: 698,
+  //     shippingAddress: {
+  //       name: "Ananya Sharma",
+  //       street: "45 Park Street",
+  //       city: "Kolkata",
+  //       mobileNumber: "9123456780",
+  //       pincode: "700016",
+  //     },
+  //     paymentMethod: "UPI",
+  //     createdAt: Date.now(),
+  //   },
+  //   {
+  //     _id: "order_003",
+  //     products: [
+  //       {
+  //         name: "Pasta Alfredo",
+  //         quantity: 1,
+  //         price: 249,
+  //         image: "/images/pasta.jpg",
+  //       },
+  //     ],
+  //     paymentStatus: false,
+  //     orderStatus: "pending",
+  //     totalAmount: 249,
+  //     shippingAddress: {
+  //       name: "Rahul Mehta",
+  //       street: "22 Residency Road",
+  //       city: "Bengaluru",
+  //       mobileNumber: "9988776655",
+  //       pincode: "560025",
+  //     },
+  //     paymentMethod: "UPI",
+  //     createdAt: Date.now(),
+  //   },
+  //   {
+  //     _id: "order_004",
+  //     products: [
+  //       {
+  //         name: "Cheese Burger",
+  //         quantity: 3,
+  //         price: 149,
+  //         image: "/images/burger.jpg",
+  //       },
+  //     ],
+  //     paymentStatus: true,
+  //     orderStatus: "shipped",
+  //     totalAmount: 447,
+  //     shippingAddress: {
+  //       name: "Sanya Gupta",
+  //       street: "7 Connaught Place",
+  //       city: "Delhi",
+  //       mobileNumber: "9876543211",
+  //       pincode: "110001",
+  //     },
+  //     paymentMethod: "Debit Card",
+  //     createdAt: Date.now(),
+  //   },
+  //   {
+  //     _id: "order_005",
+  //     products: [
+  //       {
+  //         name: "Paneer Roll",
+  //         quantity: 2,
+  //         price: 99,
+  //         image: "/images/paneer-roll.jpg",
+  //       },
+  //       { name: "Sprite", quantity: 1, price: 50, image: "/images/sprite.jpg" },
+  //     ],
+  //     paymentStatus: false,
+  //     orderStatus: "pending",
+  //     totalAmount: 248,
+  //     shippingAddress: {
+  //       name: "Kiran Raj",
+  //       street: "88 Banjara Hills",
+  //       city: "Hyderabad",
+  //       mobileNumber: "9012345678",
+  //       pincode: "500034",
+  //     },
+  //     paymentMethod: "UPI",
+  //     createdAt: Date.now(),
+  //   },
+  // ]);
 
   const getFormatDate = (dateCode) => {
     const date = new Date(dateCode);
