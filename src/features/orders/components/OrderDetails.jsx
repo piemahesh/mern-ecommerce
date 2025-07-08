@@ -1,39 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 
-export function OrderDetails({
-  closerHandler = () => {},
-  id = "",
-  orders = [],
-}) {
-  const [isActive, setIsActive] = useState(false);
-  const [order, setOrder] = useState(null);
-
-  //First time slider show after 200ms
-  useEffect(() => {
-    setTimeout(() => {
-      setIsActive(true);
-    }, 50);
-  }, []);
-
-  useEffect(() => {
-    const filterOrder = orders.find((order) => order?._id == id);
-    if (!filterOrder) return closerHandler("");
-    const date = new Date(filterOrder?.createdAt);
-    const createdAt = `${date.getFullYear()}-${
-      date.getMonth() + 1
-    }-${date.getDate()}`;
-    setOrder({ ...filterOrder, createdAt });
-  }, []);
-
-  //Slider close handler
-  const sliderCloserHandler = useCallback(() => {
-    setIsActive(false);
-    setTimeout(() => {
-      closerHandler("");
-    }, 400);
-  }, []);
-
+export function OrderDetails({ isModal, onClose, order }) {
+  if (!isModal) return;
   return (
     <>
       {order && (
@@ -42,13 +10,13 @@ export function OrderDetails({
         >
           <div
             className={`h-full bg-white lg:w-5/12 w-full sm:w-10/12 md:w-7/12 xl:w-4/12 pb-[4.3rem] duration-400 ${
-              isActive ? "translate-x-0" : "translate-x-full"
+              isModal ? "translate-x-0" : "translate-x-full"
             }`}
           >
             <div className="flex justify-between items-center py-5 shadow-md px-5">
               <h1 className="font-semibold text-lg">Order Details</h1>
               <button
-                onClick={sliderCloserHandler}
+                onClick={onClose}
                 className="text-3xl cursor-pointer hover:text-red-500"
               >
                 <IoCloseOutline />
@@ -148,19 +116,19 @@ export function OrderDetails({
                   <div className=" flex gap-2">
                     <span className="w-4/12 text-neutral-800">Name :</span>
                     <span className="w-8/12">
-                      {order?.shippingAddress?.name}
+                      {order?.shippmentDetails?.name}
                     </span>
                   </div>
                   <div className=" flex gap-2">
                     <span className="w-4/12 text-neutral-800">Street :</span>
                     <span className="w-8/12">
-                      {order?.shippingAddress?.street}
+                      {order?.shippmentDetails?.street}
                     </span>
                   </div>
                   <div className=" flex gap-2">
                     <span className="w-4/12 text-neutral-800">City :</span>
                     <span className="w-8/12">
-                      {order?.shippingAddress?.city}
+                      {order?.shippmentDetails?.city}
                     </span>
                   </div>
                   <div className=" flex gap-2">
@@ -168,13 +136,13 @@ export function OrderDetails({
                       Mobile Number :
                     </span>
                     <span className="w-8/12">
-                      {order?.shippingAddress?.mobileNumber}
+                      {order?.shippmentDetails?.mobileNumber}
                     </span>
                   </div>
                   <div className=" flex gap-2">
                     <span className="w-4/12 text-neutral-800">Pincode :</span>
                     <span className="w-8/12">
-                      {order?.shippingAddress?.pincode}
+                      {order?.shippmentDetails?.pincode}
                     </span>
                   </div>
                 </div>
@@ -182,7 +150,7 @@ export function OrderDetails({
             </section>
           </div>
           <div
-            onClick={sliderCloserHandler}
+            onClick={onClose}
             className="bg-neut h-full w-full absolute -z-1 bg-black opacity-50 cursor-pointer"
           ></div>
         </section>
