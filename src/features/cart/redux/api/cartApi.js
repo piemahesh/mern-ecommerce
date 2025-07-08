@@ -42,6 +42,7 @@ export const MakeOrderAPI = createAsyncThunk(
       );
       return resp.data;
     } catch (err) {
+      alert(err);
       return thunkApi.rejectWithValue(...err);
     }
   }

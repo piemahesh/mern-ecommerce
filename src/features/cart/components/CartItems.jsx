@@ -25,6 +25,7 @@ export const CartItems = () => {
       const res = await dispatch(MakeOrderAPI(data));
       console.log(res);
     } catch (error) {
+      alert(error);
       console.log(error);
     }
   };
